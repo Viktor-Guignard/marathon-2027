@@ -1,0 +1,10 @@
+import type { Workout } from '@/types';
+export const paceFrom = (km:number, minutes:number) => km>0&&minutes>0 ? minutes/km : 0;
+export const distanceFrom = (minutes:number, pace:number) => pace>0&&minutes>0 ? minutes/pace : 0;
+export const loadOf = (w:Workout) => (w.duration??0)*(w.rpe??0);
+export const progress = (current:number,target:number) => target>0?Math.min(100,Math.round(current/target*100)):0;
+export const daysUntil = (date:string) => Math.max(0,Math.ceil((new Date(date+'T23:59:59').getTime()-Date.now())/86400000));
+export const weeksUntil = (date:string) => Math.ceil(daysUntil(date)/7);
+export const longestRun = (runs:Workout[]) => Math.max(0,...runs.map(w=>w.distance??0));
+export const mondayKey = (date:string) => { const d=new Date(date+'T12:00:00'); d.setDate(d.getDate()-((d.getDay()+6)%7)); return d.toISOString().slice(0,10); };
+export const getCurrentPhase = () => { const n=new Date(); if(n<new Date('2026-11-01'))return 'Construction de base'; if(n<new Date('2027-01-01'))return 'Développement de l’endurance'; if(n<new Date('2027-03-15'))return 'Préparation spécifique'; if(n<new Date('2027-04-05'))return 'Affûtage'; return 'Récupération / Gdańsk'; };
